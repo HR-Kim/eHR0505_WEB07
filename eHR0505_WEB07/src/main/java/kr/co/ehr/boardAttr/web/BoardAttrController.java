@@ -1,6 +1,7 @@
 package kr.co.ehr.boardAttr.web;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -119,11 +120,12 @@ public class BoardAttrController {
 	}
 	
 	
-	/**삭제 */
+	/**삭제 
+	 * @throws SQLException */
 	@RequestMapping(value="board_attr/do_delete.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String do_delete(BoardAttr inVO) {
+	public String do_delete(BoardAttr inVO) throws SQLException {
 		LOG.debug("============================");
 		LOG.debug("=inVO="+inVO);
 		LOG.debug("============================");
@@ -131,7 +133,7 @@ public class BoardAttrController {
 		//FILE_ID가 있는 경우 파일테이블 삭제 추가 
 		//flag > 1 삭제 성공.
 		//flag ==1 && FILE_ID==0 삭제 성공
-		int flag = this.service.do_delete(inVO);
+		int flag = this.service.tx_do_delete(inVO);
 		
 		Message  message=new Message();
 		

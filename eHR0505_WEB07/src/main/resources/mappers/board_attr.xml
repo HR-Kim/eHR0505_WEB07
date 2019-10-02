@@ -97,7 +97,7 @@
 		UPDATE BOARD_ATTR
 		SET  TITLE    = #{title,jdbcType=VARCHAR}
 		    ,CONTENTS = #{contents,jdbcType=VARCHAR}
-		    ,FILE_ID  = #{fileId,jdbcType=VARCHAR}
+		    ,FILE_ID  = DECODE(#{fileId},'0',NULL,#{fileId})
 		    ,REG_ID   = #{regId,jdbcType=VARCHAR}
 		    ,REG_DT   = SYSDATE
 		WHERE BOARD_ID = #{boardId,jdbcType=VARCHAR}

@@ -1,5 +1,6 @@
 package kr.co.ehr.boardAttr.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import kr.co.ehr.cmn.DTO;
@@ -13,7 +14,7 @@ public interface BoardAttrService {
 	public int do_update(DTO dto);
 
 	/**트랜잭션 처리: board_attr,file 테이블 양쪽 삭제*/
-	public int tx_do_delete(DTO dto);
+	public int tx_do_delete(DTO dto)throws SQLException;
 	
 	/**삭제 */
 	public int do_delete(DTO dto);

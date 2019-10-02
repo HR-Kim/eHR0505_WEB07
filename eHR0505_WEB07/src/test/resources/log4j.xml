@@ -34,13 +34,13 @@
  
  <!-- SQL -->
  <logger name="jdbc.sqlonly" additivity="false">
- 	<level value="info" />
+ 	<level value="debug" />
  	<appender-ref ref="console-infolog" />
  	<appender-ref ref="rolling" />
  </logger>
  <!-- 결과 -->
  <logger name="jdbc.resultsettable" additivity="false">
- 	<level value="info" />
+ 	<level value="debug" />
  	<appender-ref ref="console-infolog" />
  	<appender-ref ref="rolling" />
  </logger>

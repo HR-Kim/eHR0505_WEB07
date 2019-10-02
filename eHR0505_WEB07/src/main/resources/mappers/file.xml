@@ -3,6 +3,15 @@
 <mapper namespace="kr.co.ehr.file">
 
 
+	<!-- FILE_ID기준: 파일겟수 -->
+	<select id="do_file_count" resultType="int"
+		parameterType="File" >
+		<![CDATA[
+			SELECT COUNT(*) cnt FROM file_mng	
+			WHERE  file_id = #{fileId,jdbcType=VARCHAR}	
+		]]>
+	</select>
+	
 	<!-- FILE_ID기준: 삭제 -->
 	<delete id="do_delete_file_id"
 		parameterType="File">

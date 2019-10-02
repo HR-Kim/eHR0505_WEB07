@@ -1,5 +1,6 @@
 package kr.co.ehr.boardAttr.service.impl;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,12 +14,13 @@ import kr.co.ehr.boardAttr.service.BoardAttr;
 import kr.co.ehr.boardAttr.service.BoardAttrService;
 import kr.co.ehr.cmn.DTO;
 import kr.co.ehr.cmn.ExcelWriter;
+import kr.co.ehr.file.service.File;
 import kr.co.ehr.file.service.impl.FileDaoImpl;
 import kr.co.ehr.user.service.Search;
 
 @Service
 public class BoardAttrServiceImpl implements BoardAttrService {
-	Logger  LOG = LoggerFactory.getLogger(this.getClass());
+	private Logger  LOG = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private BoardAttrDaoImpl boardAttrDaoImpl;
@@ -95,7 +97,7 @@ public class BoardAttrServiceImpl implements BoardAttrService {
 	}
 
 	@Override
-	public int tx_do_delete(DTO dto) {
+	public int tx_do_delete(DTO dto) throws SQLException {
 		//----------------------------------
 		//board_attr 테이블 Data삭제(File_ID),
 		//if(FILE_ID is not null && flag ==1)
@@ -105,8 +107,21 @@ public class BoardAttrServiceImpl implements BoardAttrService {
 		BoardAttr  inVO = (BoardAttr) dto;
 		int flag = boardAttrDaoImpl.do_delete(dto);
 		//FILE_MNG:FILE_ID기준으로 삭제.
-		if(!inVO.getFileId().equals("0") && flag == 1) {
-			flag+=this.fileDaoImpl.do_deleteFileId(dto);
+		if( flag == 1) {
+			if( (null !=inVO.getFileId()) || !inVO.getFileId().equals("0")) {
+				LOG.debug("================================");
+				LOG.debug("=fileDaoImpl="+fileDaoImpl);
+				File file=new File();
+				file.setFileId(inVO.getFileId());
+				
+				LOG.debug("=file="+file);
+				flag+=this.fileDaoImpl.do_deleteFileId(file);
+				
+				LOG.debug("=flag="+flag);
+				LOG.debug("================================");
+				if(inVO.getFileId().equals("1016"))throw new SQLException("KIM Tr test");
+			
+			}
 		}
 		
 		

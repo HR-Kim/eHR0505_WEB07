@@ -38,7 +38,7 @@ import kr.co.ehr.user.service.Search;
 public class DaoFileTest {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());	
 	
-	@Autowired
+	@Autowired  
 	private WebApplicationContext context;
 	
 	@Autowired
@@ -68,8 +68,30 @@ public class DaoFileTest {
 //		}
 		
 	}
+	@Test
+	public void do_file_count() {
+		//=====================================
+		//0. 기존data삭제
+		//=====================================	
+		for(File vo:list) {
+			daoImpl.do_delete(vo);
+		}
+		
+		//=====================================
+		//1. Data등록
+		//=====================================
+		for(File vo:list) { 
+			int flag = daoImpl.do_save(vo);
+			assertThat(1, is(flag));
+		}
+		
+		int flag = daoImpl.do_file_count(list.get(0));
+		LOG.debug("flag:"+flag);
+	}
+	
 	
 	@Test
+	@Ignore
 	public void addAndGet() {
 		//=====================================
 		//0. 기존data삭제
