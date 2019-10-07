@@ -59,7 +59,6 @@ public class DaoBoardAttrTest {
 		LOG.debug("#####setUp");
 	}
 	
-
 	
 	@Test
 	public void get_retrieve() {
