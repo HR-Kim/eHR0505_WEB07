@@ -55,11 +55,11 @@ public class DaoFileTest {
 		
 		LOG.debug(fileId.length()+"");
 		list = Arrays.asList( 
-				 new File("j01_124",1,"J01_원본파일.txt","BOARD_ATTR","J01_저장파일.txt",10000,"txt","admin","")
-				,new File("j01_124",2,"J02_원본파일.txt","BOARD_ATTR","J02_저장파일.txt",20000,"txt","admin","")				
-				,new File("j01_124",3,"J03_원본파일.txt","BOARD_ATTR","J03_저장파일.txt",30000,"txt","admin","")
-				,new File("j01_124",4,"J04_원본파일.txt","BOARD_ATTR","J04_저장파일.txt",40000,"txt","admin","")
-				,new File("j01_124",5,"J05_원본파일.txt","BOARD_ATTR","J05_저장파일.txt",50000,"txt","admin","")
+				 new File("j01_124",1,"J01_원본파일_124.txt","BOARD_ATTR","J01_저장파일_124.txt",10000,"txt","admin","")
+				,new File("j01_124",2,"J02_원본파일_124.txt","BOARD_ATTR","J02_저장파일_124.txt",20000,"txt","admin","")				
+				,new File("j01_124",3,"J03_원본파일_124.txt","BOARD_ATTR","J03_저장파일_124.txt",30000,"txt","admin","")
+				,new File("j01_124",4,"J04_원본파일_124.txt","BOARD_ATTR","J04_저장파일_124.txt",40000,"txt","admin","")
+				,new File("j01_124",5,"J05_원본파일_124.txt","BOARD_ATTR","J05_저장파일_124.txt",50000,"txt","admin","")
 				
 				);
 //      File Id 테스트 		
@@ -68,6 +68,8 @@ public class DaoFileTest {
 //		}
 		
 	}
+	
+	@Ignore
 	@Test
 	public void do_file_count() {
 		//=====================================
@@ -91,7 +93,6 @@ public class DaoFileTest {
 	
 	
 	@Test
-	@Ignore
 	public void addAndGet() {
 		//=====================================
 		//0. 기존data삭제

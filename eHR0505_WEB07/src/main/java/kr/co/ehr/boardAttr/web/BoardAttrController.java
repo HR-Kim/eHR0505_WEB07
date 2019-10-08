@@ -27,11 +27,15 @@ import kr.co.ehr.cmn.Message;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.code.service.Code;
 import kr.co.ehr.code.service.CodeService;
+import kr.co.ehr.file.service.FileService;
 import kr.co.ehr.user.service.Search;
 
 @Controller
 public class BoardAttrController {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	private FileService fileService;
 	
 	@Autowired
 	private BoardAttrService service;
@@ -205,6 +209,17 @@ public class BoardAttrController {
 		
 		BoardAttr outVO= (BoardAttr) service.get_selectOne(inVO);
 		model.addAttribute("vo", outVO);
+		
+		if(null !=outVO && !outVO.getFileId().equals("")) {
+			kr.co.ehr.file.service.File  file =new kr.co.ehr.file.service.File();
+			file.setFileId(outVO.getFileId());
+			LOG.debug("============================");
+			LOG.debug("=file="+file);
+			LOG.debug("============================");			
+			List<File> listFile = (List<File>) this.fileService.get_retrieve(file);
+			model.addAttribute("listFile", listFile);
+		}
+		
 		
 		return VIEW_MNG_NM;
 	}

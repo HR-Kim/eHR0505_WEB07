@@ -139,7 +139,7 @@
 
 		<!-- Grid영역 -->
 		<div class="table-responsive">
-			<table class="table  table-striped table-bordered table-hover">
+			<table class="table  table-striped table-bordered table-hover" id="listTable">
 				<thead class="bg-primary">
 				    <th class="text-center col-md-1 col-xs-1" style="display:none;">BOARD_ID</th>
 					<th class="text-center col-md-1 col-xs-1"><spring:message  code="message.com.num"/></th>

@@ -24,3 +24,4 @@ message.com.delete=삭제
 
 #message
 message.msg.no_data=등록된 게시물이 없습니다.
+message.msg.will_you_do_it=삭제 하시겠습니까?
