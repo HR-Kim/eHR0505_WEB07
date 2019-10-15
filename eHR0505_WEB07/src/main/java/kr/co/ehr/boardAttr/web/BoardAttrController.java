@@ -55,26 +55,33 @@ public class BoardAttrController {
 	
 	//http://localhost:8080/ehr/file/uploadfileview.do
 	@RequestMapping(value="board_attr/board_attr_mng.do")
-	public String boardAttrMngView() {
+	public String boardAttrMngView(HttpServletRequest req) {
 		LOG.debug("===============================");
 		LOG.debug("=@Controller uploadFileView=");
 		LOG.debug("===============================");
+		
+		String viewName = (String) req.getAttribute("hrViewName");
+		LOG.debug("=@Controller viewName="+viewName);
 		return VIEW_MNG_NM;
 	}
 
 	//http://localhost:8080/ehr/file/uploadfileview.do
 	@RequestMapping(value="board_attr/board_attr_reg.do")
-	public String boardAttrRegView() {
+	public String boardAttrRegView(HttpServletRequest req) {
 		LOG.debug("===============================");
 		LOG.debug("=@Controller uploadFileView=");
 		LOG.debug("===============================");
+		
+		String viewName = (String) req.getAttribute("hrViewName");
+		LOG.debug("=@Controller viewName="+viewName);
+		
 		return VIEW_MNG_REG_NM;
 	}
 	
 	@RequestMapping(value="board_attr/do_fileIdNullUpdate.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String do_fileIdNullUpdate(BoardAttr inVO) {
+	public String do_fileIdNullUpdate(BoardAttr inVO,HttpServletRequest req) {
 		//if(파일이 모두 삭제==true) FILE_ID를 null업데이트 
 		String gsonStr = "";
 		LOG.debug("============================");
@@ -338,6 +345,10 @@ public class BoardAttrController {
 		LOG.debug("============================");
 		LOG.debug("=search="+search);
 		LOG.debug("============================");		
+		
+		String viewName = (String) req.getAttribute("hrViewName");
+		LOG.debug("=@Controller viewName="+viewName);
+		
 		
 		Code code=new Code();
 		//페이지사이즈
