@@ -17,5 +17,8 @@
 	</tr>
 	<tr>
 		<td><a href="${context}/chart/line_chart_view.do" >라인Chart</a></td>
-	</tr>	
+	</tr>
+    <tr>
+        <td><a href="${context}/board_attr/get_retrieve.do" >첨부게시판</a></td>
+    </tr>		
 </table>

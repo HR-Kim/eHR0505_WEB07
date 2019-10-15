@@ -14,7 +14,6 @@
 	<h1><spring:message code="message.board.board_title"/></h1>
 	<hr/> 
 	<img alt="ddd" src='<c:url value="/resources/images/main/abc.jpg" />'  >
-	${user}
 	
 </body>   
 </html>  

@@ -25,7 +25,7 @@ import org.springframework.web.servlet.View;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.file.service.FileVO;
 
-@Controller
+//@Controller
 public class OldFileController {
 
 	Logger LOG = LoggerFactory.getLogger(this.getClass());

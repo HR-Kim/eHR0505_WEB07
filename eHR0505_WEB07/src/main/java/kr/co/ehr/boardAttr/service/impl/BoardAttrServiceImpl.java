@@ -116,6 +116,11 @@ public class BoardAttrServiceImpl implements BoardAttrService {
 		return flag;
 	}
 
+	@Override
+	public int do_fileIdNullUpdate(DTO dto) {
+		return boardAttrDaoImpl.do_fileIdNullUpdate(dto);
+	}
+
   
 
 }

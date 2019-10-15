@@ -25,6 +25,26 @@ public class FileDaoImpl implements WorkDiv {
 	private final String NAMESPACE = "kr.co.ehr.file";
 	
 	
+
+	//
+	public int do_file_max_count(DTO dto) {
+		String statement = NAMESPACE+".do_file_max_count";
+		File inVO = (File) dto;
+		LOG.debug("=========================");
+		LOG.debug("1. param:"+inVO);
+		LOG.debug("=========================");
+		
+		LOG.debug("=========================");
+		LOG.debug("2. statement:"+statement);
+		LOG.debug("=========================");	
+		
+		int count = this.sqlSessionTemplate.selectOne(statement, inVO);
+		LOG.debug("=========================");
+		LOG.debug("3. flag:"+count);
+		LOG.debug("=========================");			
+		return count;
+	}
+	//do_file_count
 	public int do_file_count(DTO dto) {
 		String statement = NAMESPACE+".do_file_count";
 		File inVO = (File) dto;

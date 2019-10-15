@@ -22,8 +22,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.google.gson.Gson;
+
 import kr.co.ehr.board.service.Board;
 import kr.co.ehr.board.service.impl.BoardDaoImpl;
+import kr.co.ehr.boardAttr.service.BoardAttr;
+import kr.co.ehr.boardAttr.service.BoardAttrFile;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.code.service.Code;
 import kr.co.ehr.code.service.impl.CodeDaoImpl;
@@ -69,6 +73,19 @@ public class DaoFileTest {
 		
 	}
 	
+	@Test
+	public void getListWithDTO() {
+		Gson gson=new Gson();
+		BoardAttrFile boardAttrFile=new BoardAttrFile();
+		BoardAttr boardAttr = new BoardAttr("1","J01_ATTR_124제목","J01_ATTR_내용",0,"88","admin","noDate");
+		boardAttrFile.setBoardAttr(boardAttr);
+		boardAttrFile.setBoardAttrList(list);
+		
+		String gStr = gson.toJson(boardAttrFile);
+		LOG.debug("gStr:"+gStr);
+	}
+	
+	
 	@Ignore
 	@Test
 	public void do_file_count() {
@@ -93,6 +110,7 @@ public class DaoFileTest {
 	
 	
 	@Test
+	@Ignore
 	public void addAndGet() {
 		//=====================================
 		//0. 기존data삭제

@@ -118,6 +118,7 @@
 				<form class="form-inline" name="boardFrm" id="boardFrm" method="get">
 					<input type="hidden" name="pageNum" id="pageNum" value="${vo.pageNum }"/>
 					<input type="hidden" name="boardId" id="boardId" />
+					<input type="hidden" name="fileId"  id="fileId" />
 					<div class="form-group">
 					    <!-- 페이지 사이즈 -->
 						<%=StringUtil.makeSelectBox(listPageSize, "pageSize", pageSize, false) %>
@@ -131,6 +132,8 @@
 						<!-- 엑셀구분 --> 
 						<%=StringUtil.makeSelectBox(listExcelType, "ext", ext, false) %>	
 						<input type="button" class="btn btn-default btn-sm" id="doExcel" value='<spring:message code="message.com.exceldown"/>' />
+						<button type="button" class="btn btn-default btn-sm"
+                            id="doSave">등록</button>
 					</div>
 				</form>
 			</div>
@@ -142,6 +145,7 @@
 			<table class="table  table-striped table-bordered table-hover" id="listTable">
 				<thead class="bg-primary">
 				    <th class="text-center col-md-1 col-xs-1" style="display:none;">BOARD_ID</th>
+				    <th class="text-center col-md-1 col-xs-1" style="display:none;">FILE_ID</th>
 					<th class="text-center col-md-1 col-xs-1"><spring:message  code="message.com.num"/></th>
 					<th class="text-center col-md-9 col-xs-6 "><spring:message code="message.board.title"/></th>
 					<th class="text-center col-md-1 col-xs-1"><spring:message  code="message.board.reg_id"/></th>
@@ -155,8 +159,9 @@
 							<c:forEach var="vo" items="${list}">
 								<tr>
 									<td class="text-center" style="display:none;"><c:out value="${vo.boardId }"/></td>
+									<td class="text-center" style="display:none;"><c:out value="${vo.fileId }"/></td>
 									<td class="text-center"><c:out value="${vo.num }"/></td>
-									<td class="text-left"><c:out value="${vo.title }"/>&nbsp;<c:if test="${not empty vo.fileId}"><img alt="" src='<c:url value="/resources/images/file/file.gif" />'  ></c:if></td>
+									<td class="text-left"><c:out value="${vo.title }"/>&nbsp;<c:if test="${'0'!= vo.fileId}"><img alt="" src='<c:url value="/resources/images/file/file.gif" />'  ></c:if></td>
 									<td class="text-left"><c:out value="${vo.regId }"/></td>
 									<td class="text-right"><c:out value="${vo.readCnt }"/></td>
 									<td class="text-center"><c:out value="${vo.regDt }"/></td>
@@ -203,9 +208,11 @@
 			
 			
 			var boardId = td.eq(0).text();
+			var fileId = td.eq(1).text();
 			//console.log("boardId:"+boardId);
 			var frm = document.boardFrm;
 			frm.boardId.value=boardId;
+			frm.fileId.value=fileId;
 			frm.action = "${context}/board_attr/do_selectOne.do";
 			frm.submit();
 			
@@ -221,7 +228,7 @@
 	    
 	    function doExcelDown(){
 	    	var frm = document.boardFrm;
-			frm.action = "${context}/board_attr/do_exceldown.do"
+			frm.action = "${context}/board_attr/do_exceldown.do";
 	    	frm.submit();
 	    }
 	    
@@ -233,6 +240,12 @@
 	    	doExcelDown();
 	    });
 	    
+	    //등록으로 이동
+        $("#doSave").on("click",function(){
+            var frm = document.boardFrm;
+            frm.action = "${context}/board_attr/board_attr_reg.do";
+            frm.submit();
+        });
 	    
 	
 		$("#doRetrieve").on("click",function(){

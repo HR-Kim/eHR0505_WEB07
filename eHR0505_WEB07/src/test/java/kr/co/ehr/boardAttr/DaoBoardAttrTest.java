@@ -22,6 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.google.gson.Gson;
+
 import kr.co.ehr.boardAttr.service.BoardAttr;
 import kr.co.ehr.boardAttr.service.impl.BoardAttrDaoImpl;
 import kr.co.ehr.cmn.DTO;
@@ -58,6 +60,8 @@ public class DaoBoardAttrTest {
 				);
 		LOG.debug("#####setUp");
 	}
+	
+
 	
 	
 	@Test

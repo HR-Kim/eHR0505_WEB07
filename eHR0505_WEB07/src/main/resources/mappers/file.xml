@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.ehr.file">
 
-
+    <!-- FILE_ID기준: 파일 Num증가-->
+    <select id="do_file_max_count" resultType="int"
+        parameterType="File" >
+        <![CDATA[
+            SELECT NVL(MAX(num),0)+1 cnt FROM file_mng   
+            WHERE  file_id = #{fileId,jdbcType=VARCHAR} 
+        ]]>
+    </select>
 	<!-- FILE_ID기준: 파일겟수 -->
 	<select id="do_file_count" resultType="int"
 		parameterType="File" >
@@ -80,5 +87,12 @@
 		]]>
 	</delete>
 	
-	
+    <!-- 삭제 -->
+    <delete id="do_delete_fileId"
+        parameterType="File">
+        <![CDATA[
+            DELETE FROM file_mng    
+            WHERE  file_id = #{fileId,jdbcType=VARCHAR}
+        ]]>
+    </delete>	
 </mapper>

@@ -55,6 +55,14 @@ public class UserController {
 	private final String VIEW_NM = "user/user_mng";
 	//http://localhost:8080/ehr/user/do_user_view.do
 	
+	@RequestMapping(value="/NotLogged.do",method = RequestMethod.GET)
+	public String doLoginView() {
+		LOG.debug("=========================");
+		LOG.debug("=@Controller=doLoginView==");
+		LOG.debug("=========================");
+		return "user/login";
+	}
+	
 	@RequestMapping(value="login/do_login.do",method=RequestMethod.POST
 			,produces = "application/json; charset=UTF-8")
 	@ResponseBody		

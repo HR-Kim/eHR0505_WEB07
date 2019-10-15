@@ -49,7 +49,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/template/{1}.jsp"/>	
 	</definition>	
 	
-	
+	<!-- board_attr.jsp -->
+    <definition name="board_attr/*" extends="base-definition">
+        <put-attribute name="title" value="HRSPING>첨부게시판"/>
+        <put-attribute name="body" value="/board_attr/{1}.jsp"/> 
+    </definition>
 	
 	
 	

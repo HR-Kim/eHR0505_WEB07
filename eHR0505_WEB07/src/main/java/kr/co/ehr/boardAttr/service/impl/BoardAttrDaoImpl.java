@@ -23,6 +23,25 @@ public class BoardAttrDaoImpl implements WorkDiv {
 	
 	private final String NAMESPACE = "kr.co.ehr.boardAttr";
 	
+	
+	/** fileId_null_update:NEW*/
+	public int do_fileIdNullUpdate(DTO dto) {
+		String statement = NAMESPACE+".do_fileIdNullUpdate";
+		BoardAttr inVO = (BoardAttr) dto;
+		LOG.debug("=========================");
+		LOG.debug("1. param:"+inVO);
+		LOG.debug("=========================");
+		
+		LOG.debug("=========================");
+		LOG.debug("2. statement:"+statement);
+		LOG.debug("=========================");	
+		
+		int flag = this.sqlSessionTemplate.update(statement, inVO);
+		LOG.debug("=========================");
+		LOG.debug("3. flag:"+flag);
+		LOG.debug("=========================");			
+		return flag;
+	}
 	/** read count 증가 */
 	public int do_updateReadCnt(DTO dto) {
 		String statement = NAMESPACE+".do_updateReadCnt";

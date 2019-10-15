@@ -122,8 +122,6 @@
 
 	<script type="text/javascript">
 	   
-	
-	
 		//목록
 		$("#doRetrieve").on("click", function() {
 			if (confirm("목록으로 이동 하시겠습니까?") == false)return;

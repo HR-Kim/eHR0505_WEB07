@@ -6,6 +6,10 @@ import kr.co.ehr.cmn.DTO;
 import kr.co.ehr.user.service.Search;
 
 public interface BoardAttrService {
+	
+	/**파일ID Null Update*/
+	public int do_fileIdNullUpdate(DTO dto);
+	
 	/**엑셀다운 */
 	public String excelDown(Search vo,String ext);
 	

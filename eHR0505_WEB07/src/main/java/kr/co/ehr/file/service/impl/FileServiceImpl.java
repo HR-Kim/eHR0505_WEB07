@@ -35,4 +35,19 @@ public class FileServiceImpl implements FileService {
 		return fileDaoImpl.get_retrieve(dto);
 	}
 
+	@Override
+	public int do_file_max_count(DTO dto) {
+		return fileDaoImpl.do_file_max_count(dto);
+	}
+
+	@Override
+	public int do_file_count(DTO dto) {
+		return fileDaoImpl.do_file_count(dto);
+	}
+
+	@Override
+	public int do_deleteFileId(DTO dto) {
+		return fileDaoImpl.do_deleteFileId(dto);
+	}
+
 }

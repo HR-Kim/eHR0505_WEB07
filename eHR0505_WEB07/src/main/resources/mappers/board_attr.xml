@@ -92,6 +92,16 @@
 	</select>
 	
 	
+    <!-- FileId: 수정 -->
+    <update id="do_fileIdNullUpdate" parameterType="BoardAttr">
+        UPDATE BOARD_ATTR
+        SET  
+             FILE_ID  = NULL
+            ,REG_ID   = #{regId,jdbcType=VARCHAR}
+            ,REG_DT   = SYSDATE
+        WHERE BOARD_ID = #{boardId,jdbcType=VARCHAR}
+    </update>
+    	
 	<!-- 수정 -->
 	<update id="do_update" parameterType="BoardAttr">
 		UPDATE BOARD_ATTR

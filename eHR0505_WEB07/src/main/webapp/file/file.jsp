@@ -17,8 +17,9 @@
 	$(document).ready(function(){
 		console.log("ready");
 		
-		$("#listTable>tbody").on("click","tr",function(){
+		$("#listTable>tbody").on("click","tr",function(e){
 			//console.log("listTable");
+
 			var tr = $(this);
 			var tdArray = tr.children();
 			
@@ -42,7 +43,6 @@
 	<hr/>
 	<form action="do_save.do" method="post" enctype="multipart/form-data">
 		파일1:<input type="file" name="file01" /><br/>
-		파일2:<input type="file" name="file02" /><br/>
 		작업구분:<input type="text" name="work_div" size="15"><br/>
 		<input type="submit" value="전송" />
 	

@@ -43,6 +43,15 @@
 	
 	<context:component-scan base-package="kr.co.ehr" />
 	
+	<beans:bean id="loginInterceptor" class="kr.co.ehr.cmn.web.LoginInterceptor"></beans:bean>
+    
+    <interceptors>
+        <!-- Login:session없는 경우 가로채기 -->
+        <interceptor>
+            <mapping path="/user/**"/>
+            <beans:ref bean="loginInterceptor"/>
+        </interceptor>
+    </interceptors>
 	
 	
 </beans:beans>

@@ -9,7 +9,7 @@
 		<setting name="mapUnderscoreToCamelCase" value="false" />
 	</settings>
 	<!-- 타입 별칭은 자바 타입에 대한 짧은 이름이다. 오직 XML 설정에서만 사용되며, 타이핑을 줄이기 위해 존재한다 -->
-	<typeAliases>
+	<typeAliases>  
 	    <typeAlias type="kr.co.ehr.boardAttr.service.BoardAttr" alias="BoardAttr" />
 	    <typeAlias type="kr.co.ehr.file.service.File" alias="File" />
 	    <typeAlias type="kr.co.ehr.board.service.Board" alias="Board" />

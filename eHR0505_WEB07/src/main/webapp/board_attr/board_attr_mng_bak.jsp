@@ -55,11 +55,14 @@
 				<div class="text-right">
 					<button type="button" class="btn btn-default btn-sm"
 						id="doRetrieve">목록</button>
+					<button type="button" class="btn btn-default btn-sm" id="doInit">초기화</button>
+					<button type="button" class="btn btn-default btn-sm" id="doSave" disabled="disabled">등록</button>
 					<button type="button" class="btn btn-default btn-sm" id="doUpdate">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="doDelete">삭제</button>
 				</div>
 			</div>
 		</div>
+		${vo}
 		<!-- div title -->
 		<form class="form-horizontal" name="boardEditFrm" id="boardEditFrm"
 			method="post" action="do_update.do">
@@ -117,15 +120,7 @@
 						disabled="disabled">
 				</div>
 			</div>
-            <div class="form-group">
-                <label for="listFileTable" class="col-sm-2 control-label">첨부파일</label>
-                <div class="table-responsive col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    <table class="table  table-striped table-bordered table-hover" id="listFileTable">
-                        <tbody></tbody>
-                    </table>
-                </div>
-                <!--// Grid영역 -->
-            </div>
+
 			</form>
 
             <!-- Modal  -->
@@ -139,30 +134,64 @@
 			        <!-- header title -->
 			        <h4 class="modal-title">File Upload</h4>
 			      </div>
-                  <!-- body -->
-                  <div class="modal-body">
-                    <form class="form-horizontal" action="${context}/file/do_save.do" name="saveFileForm" id="saveFileForm" method="post" enctype="multipart/form-data">
-                        <input type="hidden" class="form-control" name="work_div" id="work_div" value="com">
-                        <input type="hidden" class="form-control" name="attrFileId" id="attrFileId"   value="<c:out value='${vo.fileId }' />">
-                        
-                        <input type="hidden" class="form-control" name="orgFileNm" id="orgFileNm"     ">
-                        <input type="hidden" class="form-control" name="saveFileNm" id="saveFileNm"   ">
-                        
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input" id="file01" name="file01">
-                        </div>
-                    </form>
-                  </div>
-                  <!-- Footer -->
+			      <!-- body -->
+			      <div class="modal-body">
+			        <form class="form-horizontal" action="${context}/file/do_save.do" name="saveForm" id="saveForm" method="post" enctype="multipart/form-data">
+			            <input type="hidden" class="form-control" name="work_div" id="work_div" value="com">
+			            <input type="hidden" class="form-control" name="attrFileId" id="attrFileId"   value="<c:out value='${vo.fileId }' />">
+			            <div class="form-group">
+			                <label for="file01" class="col-sm-2 control-label">File</label>
+			                <div class="col-sm-8">
+			                    <input type="file" class="form-control" name="file01" id="file01" >
+			                </div>
+			            </div>
+			        </form>
+			      </div>
+			      <!-- Footer -->
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default"  data-dismiss="modal" id="doFileUpload">저장</button>
+			        <button type="button" class="btn btn-default"  data-dismiss="modal" id="doSaveFile">저장</button>
 			        <button type="button" class="btn btn-default"  data-dismiss="modal">취소</button>
 			      </div>
 			    </div>
 			  </div>
 			</div>
             <!--// Modal  -->
-
+			<c:if test="${listFile.size()>0 }">
+			<div class="form-group">
+				<label for="inputEmail3" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">파일첨부</label>
+				<!-- Grid영역 -->
+				
+				<div class="table-responsive col-xs-8 col-sm-8 col-md-8 col-lg-8">
+					<table class="table  table-striped table-bordered table-hover" id="listFileTable">
+						<thead >
+						    <th class="hidden-xs hidden-sm hidden-md hidden-lg"  >BOARD_ATTR_ID</th>
+						    <th class="hidden-xs hidden-sm hidden-md hidden-lg"  >NUM<</th>
+							<th class="text-center col-md-5 col-xs-5">원본파일명</th>
+							<th class="text-center col-md-4 col-xs-4"  style="display:none;">저장파일명</th>
+							<th class="text-center col-md-2 col-xs-2">파일사이즈</th>
+							<th class="text-center col-md-1 col-xs-1">삭제</th>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${listFile.size()>0 }">
+									<c:forEach var="vo" items="${listFile}">
+										<tr> 
+											<td class="hidden-xs hidden-sm hidden-md hidden-lg"  data-visible="false"><c:out value="${vo.fileId }"/></td>
+											<td class="hidden-xs hidden-sm hidden-md hidden-lg"  data-visible="false"><c:out value="${vo.num }"/></td>
+											<td class="text-left"><c:out value="${vo.orgFileNm }"/></td>
+											<td class="text-left"  style="display:none;"><c:out value="${vo.saveFileNm }"/></td>
+											<td class="text-right"><c:out value="${vo.fSize }"/>byte</td>
+											<td class="text-center"><button type="button" name="${vo.num}" class="btn btn-default btn-sm btn-danger" >X</button></td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+				</div>
+				</c:if>
 				<!--// Grid영역 -->
 			</div>				
 		
@@ -179,187 +208,81 @@
 
 
 	<script type="text/javascript">
-	//fileID Update
-    function doSaveFileId(){
-        //alert($("#boardId").val()+'doSaveFileId'+$("#fileId").val());
-        if('0'==$("#attrFileId").val() && $("#fileId").val()=='0')return;
-        
-        $.ajax({
-              type : "POST",
-              url : "${context}/board_attr/do_update.do",
-              dataType : "html",
-              data : {
-                  "boardId" : $("#boardId").val(),
-                  "fileId": $("#fileId").val(),
-                  "title" : $("#title").val(),
-                  "contents" : $("#contents").val(),
-                  "regId" : $("#regId").val()
-              },
-              success : function(data) {
-                  var jData = JSON.parse(data);
-                  if (null != jData && jData.msgId == "1") {
-                      //alert(jData.msgMsg);
-                  } else {
-                      alert(jData.msgId + "|" + jData.msgMsg);
-                  }
-              },
-              complete : function(data) {
+	    function doSaveFileId(){
+	    	  
+	    	  
+	          $.ajax({
+	                type : "POST",
+	                url : "${context}/board_attr/do_update.do",
+	                dataType : "html",
+	                data : {
+	                    "boardId" : $("#boardId").val(),
+	                    "fileId": $("#fileId").val(),
+	                    "title" : $("#title").val(),
+	                    "contents" : $("#contents").val(),
+	                    "regId" : $("#regId").val()
+	                },
+	                success : function(data) {
+	                    var jData = JSON.parse(data);
+	                    if (null != jData && jData.msgId == "1") {
+	                        alert(jData.msgMsg);
+	                        location.reload();
 
-              },
-              error : function(xhr, status, error) {
-                  alert("error:" + error);
-              }
-          });
-      }
-	//파일목록 조회
-    function getFileList(fileId){
-        //alert("getFileList:"+fileId);
-        
-        $.ajax({
-            type:"POST",
-            url:"${context}/file/do_retrieve.do",
-            dataType:"html",
-            data:{
-            "work_div":"do_retrieve",
-            "fileId":fileId
-           }, 
-         success: function(data){
-           var parseData = $.parseJSON(data);
-           $("#listFileTable tbody tr").remove();
-           $.each(parseData, function (index, item) {
-               //json=[{"fileId":"201910127f8046b91e6348f2ba77c4d457738f00","orgFileNm":"KakaoTalk_풍경.jpg","saveFileNm":"C:\\HR_FILE\\2019\\10\\KakaoTalk_풍경16.jpg","fSize":55194.0,"ext":"jpg","regDt":"2019/10/12 15:11:46","totalCnt":0,"num":1}]
-               $("#listFileTable > tbody:last").append("<tr>"+ 
-                       "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.fileId"></c:out> + "</td>" +
-                       "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.num"></c:out> + "</td>" +
-                       "<td class='text-left org-file-name'>" + <c:out value="item.orgFileNm"></c:out> + "</td>" +
-                       "<td class='text-left hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.saveFileNm"></c:out> + "</td>" +
-                       "<td class='text-right'>" + <c:out value="item.fSize"></c:out> + "&nbsp; byte </td>" +
-                       "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.ext"></c:out> + "</td>" +
-                       "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.regDt"></c:out> + "</td>" +
-                       "<td class='text-center'><button type='button'  class='btn btn-default btn-sm btn-danger' >X</button></td>" +
-                       "</tr>"); 
-           });
-           
-         },
-         complete:function(data){
-          
-         },
-         error:function(xhr,status,error){
-             alert("error:"+error);
-         }
-        }); 
-        //--ajax            
-    }	
-    //파일 다운로드 
-    $("#listFileTable>tbody").on("click",".org-file-name",function(e){
-        e.preventDefault();
-        if(!confirm('파일다운로드 하시겠습니까?')) return;
-        var tr      = $(this).parent();//button parent
-        var tds     = tr.children()
-        
-        //console.log("tds:"+tds);
-        var fileId         = tds.eq(0).text();
-        var num            = tds.eq(1).text();
-        var orgFileNm      = tds.eq(2).text();
-        var saveFileNm     = tds.eq(3).text();
-        console.log("fileId:"+fileId);
-        console.log("num:"+num);
-        console.log("orgFileNm:"+orgFileNm);
-        console.log("saveFileNm:"+saveFileNm);
-        
-        var frm = document.saveFileForm;
-        frm.action = "${context}/file/download.do";
-        frm.orgFileNm.value = orgFileNm;
-        frm.saveFileNm.value= saveFileNm;
-        frm.submit();
+	                    } else {
+	                        alert(jData.msgId + "|" + jData.msgMsg);
+	                    }
+	                },
+	                complete : function(data) {
 
-    });
-    
-    //파일삭제
-    $("#listFileTable>tbody").on("click",".btn-danger",function(e){
-
-        if (confirm("삭제 하시겠습니까?") == false) return;
-        var tr      = $(this).parent().parent();//button parent/td/tr
-        var tds     = tr.children()
-        
-        //console.log("tds:"+tds);
-        var fileId         = tds.eq(0).text();
-        var num            = tds.eq(1).text();
-        var orgFileNm      = tds.eq(2).text();
-        var saveFileNm     = tds.eq(3).text();
-        //alert(fileId+"|"+num);
-        $.ajax({
-            type : "POST",
-            url : "${context}/file/do_delete.do",
-            dataType : "html",
-            data : {
-                "fileId" : fileId,
-                "num": num,
-                "orgFileNm": orgFileNm,
-                "saveFileNm": saveFileNm
-            },
-            success : function(data) {
-                console.log("data:"+data);
-                var jData = JSON.parse(data);
-                if (null != jData && jData.msgId == "1") {
-                    //alert(jData.msgMsg);
-                    //선택한 row삭제
-                    tr.remove();
-                    fileIdNullUpdate();
-                } else {
-                    alert(jData.msgId + "|" + jData.msgMsg);
-                }
-            },
-            complete : function(data) {
-
-            },
-            error : function(xhr, status, error) {
-                alert("error:" + error);
-            }
-        });
-        //--ajax  
-    });
-
-	    //파일업로드
-	    $("#doFileUpload").on("click",function(event){
+	                },
+	                error : function(xhr, status, error) {
+	                    alert("error:" + error);
+	                }
+	            });
+	    }
+	    
+	    $("#doSaveFile").on("click",function(event){
 	        if(confirm("등록 하시겠습니까?") == false) return;
 	        event.preventDefault();
-	        doUploadFile();
+	        doSave();
 	    });
 	    
-	    function doUploadFile(){
+	    function doSave(){
 
-            var form = $('form')[1];//Form data read
-            var formData = new FormData(form);
-            $.ajax({
-                type:"POST",
-                url:"${context}/file/do_save.do",
-                contentType:false,
-                async:false,
-                cache:false,
-                processData:false,
-                enctype:"multipart/form-data",
-                data:formData,
-                success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-                    if(data.msgId=="1"){
-                        var tmpFileId = $("#fileId").val();
-                        $("#attrFileId").val(data.msgMsg);
-                        $("#fileId").val(data.msgMsg);
-                        //FileList
-                        getFileList($("#fileId").val());
-                        
-                    }else{
-                        alert(data.msgMsg);
-                    }
-                },
-                complete: function(data){//무조건 수행
-                      //alert("complete");
-                },
-                error: function(xhr,status,error){
-                    alert("error");
-                }
-            });         
-        }       
+	        var form = $('form')[1];//Form data read
+	        var formData = new FormData(form);
+	        $.ajax({
+	            type:"POST",
+	            url:"${context}/file/do_save.do",
+	            contentType:false,
+	            async:false,
+	            cache:false,
+	            processData:false,
+	            enctype:"multipart/form-data",
+	            data:formData,
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+	               
+	                if(data.msgId=="1"){
+	                	
+	                	// $("#boardId").val()
+	                	$("#attrFileId").val(data.msgMsg);
+	                	$("#fileId").val(data.msgMsg);
+	                	console.log("boardId:"+$("#boardId").val());
+	                	alert(data.msgId+"|"+$("#boardId").val());
+	                	
+	                	doSaveFileId();
+	                }else{
+	                    alert(data.msgMsg);
+	                }
+	            },
+	            complete: function(data){//무조건 수행
+	                  //alert("complete");
+	            },
+	            error: function(xhr,status,error){
+	             alert("error");
+	            }
+	        });         
+	    }	    
 	    
 	
 	    
@@ -390,13 +313,84 @@
 		}
 		
 	    
+	    $("#listFileTable>tbody>tr").on("click","button",function(){
+	    	if (confirm('<spring:message code="message.msg.will_you_do_it" />') == false)return;
+	    	
+	    	var tr      = $(this).parents("tr");
+	    	var tds     = tr.children()
+	    	
+	    	//console.log("tds:"+tds);
+	    	var fileId         = tds.eq(0).text();
+	    	var num            = tds.eq(1).text();
+	    	var orgFileNm      = tds.eq(2).text();
+	    	var saveFileNm     = tds.eq(3).text();
+	    	console.log("fileId:"+fileId);
+	    	console.log("num:"+num);
+	    	console.log("orgFileNm:"+orgFileNm);
+	    	console.log("saveFileNm:"+saveFileNm);
 
+	    	$.ajax({
+                type : "POST",
+                url : "${context}/file/do_delete.do",
+                dataType : "html",
+                data : {
+                    "fileId" : fileId,
+                    "num" : num,
+                    "orgFileNm" : orgFileNm,
+                    "saveFileNm" : saveFileNm
+                },
+                success : function(data) {
+                    var jData = JSON.parse(data);
+                    if (null != jData && jData.msgId == "1") {
+                        alert(jData.msgMsg);
+                        tr.remove();
+                    //파일이 전체 삭제 된경우: board_attr의 fileId null로 update    
+                    }else if( jData.msgId == "0") {
+                    	alert(jData.msgId+":"+jData.msgMsg);
+                    	tr.remove();
+                    	fileIdNullUpdate();
+                    }else {
+                        alert(jData.msgId + "|" + jData.msgMsg);
+                    }
+                },
+                complete : function(data) {
+
+                },
+                error : function(xhr, status, error) {
+                    alert("error:" + error);
+                }
+            });
+            //--ajax  
+	    	
+	    	
+	    });
 	
 		//목록
 		$("#doRetrieve").on("click", function() {
 			if (confirm("목록으로 이동 하시겠습니까?") == false)return;
 
 			location.href = "${context}/board_attr/get_retrieve.do";
+		});
+
+		//초기환
+		$("#doInit").on("click", function() {
+			//alert("doInit");
+			//input data clear
+			$("#boardId").val("")
+			$("#title").val("");
+			$("#fileId").val(""),
+			$("#contents").val("");
+			$("#regId").val("");
+			$("#readCnt").val("");
+			$("#regDt").val("")
+
+			//버튼제어:등록,수정,삭제
+			$("#doUpdate").prop("disabled", true);
+			$("#doDelete").prop("disabled", true);
+			$("#doSave").prop("disabled", false);
+
+			$("#regId").prop("disabled", false);
+
 		});
 
 		//등록	    
@@ -519,54 +513,11 @@
 			//--ajax  
 
 		});
-		
-        //파일목록 조회
-        function getFileList(fileId){
-            //alert("getFileList:"+fileId);
-            
-            $.ajax({
-                type:"POST",
-                url:"${context}/file/do_retrieve.do",
-                dataType:"html",
-                data:{
-                "work_div":"do_retrieve",
-                "fileId":fileId
-               }, 
-             success: function(data){
-               var parseData = $.parseJSON(data);
-               $("#listFileTable tbody tr").remove();
-               $.each(parseData, function (index, item) {
-                   //json=[{"fileId":"201910127f8046b91e6348f2ba77c4d457738f00","orgFileNm":"KakaoTalk_풍경.jpg","saveFileNm":"C:\\HR_FILE\\2019\\10\\KakaoTalk_풍경16.jpg","fSize":55194.0,"ext":"jpg","regDt":"2019/10/12 15:11:46","totalCnt":0,"num":1}]
-                   $("#listFileTable > tbody:last").append("<tr>"+ 
-                           "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.fileId"></c:out> + "</td>" +
-                           "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.num"></c:out> + "</td>" +
-                           "<td class='text-left org-file-name'>" + <c:out value="item.orgFileNm"></c:out> + "</td>" +
-                           "<td class='text-left hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.saveFileNm"></c:out> + "</td>" +
-                           "<td class='text-right'>" + <c:out value="item.fSize"></c:out> + "&nbsp; byte </td>" +
-                           "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.ext"></c:out> + "</td>" +
-                           "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.regDt"></c:out> + "</td>" +
-                           "<td class='text-center'><button type='button'  class='btn btn-default btn-sm btn-danger' >X</button></td>" +
-                           "</tr>"); 
-               });
-               
-               doSaveFileId();
-               
-             },
-             complete:function(data){
-              
-             },
-             error:function(xhr,status,error){
-                 alert("error:"+error);
-             }
-            }); 
-            //--ajax            
-        }
-        
+
 		$(document).ready(function() {
 			//alert('ready');
-			if('${vo.fileId}' != '' ){
-			 getFileList('${vo.fileId }');
-			}
+			
+			
 			//form validate
 			$("#boardEditFrm").validate({
 				rules: {					
@@ -603,6 +554,7 @@
 				      validator.errorList[0].element.focus();
 				     }
 				}
+
 			});			
 			
 			
