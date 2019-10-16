@@ -488,8 +488,7 @@
 			//validation
 			console.log("boardId:" + $("#boardId").val());
 			console.log("fileId:" + $("#fileId").val());
-			if (confirm("삭제 하시겠습니까?") == false)
-				return;
+			if (confirm("삭제 하시겠습니까?") == false)	return;
 
 			$.ajax({
 				type : "POST",

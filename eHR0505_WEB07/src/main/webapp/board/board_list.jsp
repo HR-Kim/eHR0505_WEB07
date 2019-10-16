@@ -6,6 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="context" value="${pageContext.request.contextPath }" />
 <%--
@@ -157,7 +158,7 @@
 									<td class="text-center"><c:out value="${vo.num }"/></td>
 									<td class="text-left"><c:out value="${vo.title }"/></td>
 									<td class="text-left"><c:out value="${vo.regId }"/></td>
-									<td class="text-right"><c:out value="${vo.readCnt }"/></td>
+									<td class="text-right"><fmt:formatNumber  groupingUsed="true" value="${vo.readCnt }"/></td>
 									<td class="text-center"><c:out value="${vo.regDt }"/></td>
 								</tr>
 							</c:forEach>
