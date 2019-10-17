@@ -92,7 +92,6 @@ public class UserController {
 			localeResolver.setLocale(request, response, locale);
 			
 			session.setAttribute("user", outVO);
-			
 		}
 		
 		//JSON
@@ -184,7 +183,6 @@ public class UserController {
 		List<User> list = (List<User>) this.userService.get_retrieve(search);
 		model.addAttribute("list", list);
 		
-		
 		//총건수
 		int totalCnt = 0;
 		if(null !=list && list.size()>0) {
@@ -194,8 +192,6 @@ public class UserController {
 		
 		return VIEW_NM;
 	}
-	
-	
 	
 	@RequestMapping(value="user/do_user_view.do",method = RequestMethod.GET)
 	public String doUserView() {
@@ -310,7 +306,6 @@ public class UserController {
 		//BASIC->1
 		outVO.setLevel(outVO.gethLevel().intValue());
 		
-		
 		//model.addAttribute("vo", outVO);
 		Gson gson=new Gson();
 		String json = gson.toJson(outVO);
@@ -321,9 +316,7 @@ public class UserController {
 		
 		return json;
 	}
-	
-	
-	
+
 	
 }
 

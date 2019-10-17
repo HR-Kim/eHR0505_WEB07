@@ -27,7 +27,7 @@
 		
 	<!-- main.jsp -->
 	<definition name="main/*" extends="base-definition">
-		<put-attribute name="title" value="HRSPING>사용자"/>
+		<put-attribute name="title" value="HRSPING>Main"/>
 		<put-attribute name="body" value="/main/{1}.jsp"/>	
 	</definition>
 		
