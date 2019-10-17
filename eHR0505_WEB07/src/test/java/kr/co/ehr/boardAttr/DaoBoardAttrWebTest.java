@@ -74,17 +74,55 @@ public class DaoBoardAttrWebTest {
 	@Before
 	public void setUp() {
 		list  = Arrays.asList(
-				 new BoardAttr("1","J01_ATTR_124제목","J01_ATTR_내용",0,"88","admin","noDate")
-				,new BoardAttr("2","J02_ATTR_124제목","J02_ATTR_내용",0,"88","admin","noDate")
-				,new BoardAttr("3","J03_ATTR_124제목","J03_ATTR_내용",0,"88","admin","noDate")
-				,new BoardAttr("4","J04_ATTR_124제목","J04_ATTR_내용",0,"88","admin","noDate")
-				,new BoardAttr("5","J05_ATTR_124제목","J05_ATTR_내용",0,"88","admin","noDate")
+				 new BoardAttr("1","J01_ATTR_124제목","J01_ATTR_내용",0,"","admin","noDate")
+				,new BoardAttr("2","J02_ATTR_124제목","J02_ATTR_내용",0,"","admin","noDate")
+				,new BoardAttr("3","J03_ATTR_124제목","J03_ATTR_내용",0,"","admin","noDate")
+				,new BoardAttr("4","J04_ATTR_124제목","J04_ATTR_내용",0,"","admin","noDate")
+				,new BoardAttr("5","J05_ATTR_124제목","J05_ATTR_내용",0,"","admin","noDate")
 				);		
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 	
+	@Test
+	public void get_searchTitleList() throws Exception {
+		LOG.debug("======================================");
+		LOG.debug("=01. 기존 데이터 삭제=");
+		LOG.debug("======================================");
+		Search search=new Search();
+		search.setSearchWord("_124");
+		List<BoardAttr> getIdList = (List<BoardAttr>) boardAttrDaoImpl.get_boardIdList(search);
+			
+		for(BoardAttr vo:getIdList) {
+			do_delete(vo);
+		}
+		
+		LOG.debug("======================================");
+		LOG.debug("=02. 단건등록=");
+		LOG.debug("======================================");
+		for(BoardAttr vo:list) {
+			do_save(vo);
+		}
+		
+		//url,param,post/get
+		MockHttpServletRequestBuilder createMessage = 
+				MockMvcRequestBuilders.get("/board_attr/keywordSearch.do")
+				.param("searchWord", "_124");
+				
+		ResultActions resultActions = mockMvc.perform(createMessage)
+                .andExpect(status().isOk());	
+
+		String result = resultActions.andDo(print())
+		.andReturn()
+		.getResponse().getContentAsString();
+
+		LOG.debug("=====================================");
+		LOG.debug("=result="+result);
+		LOG.debug("=====================================");			
+	}
+	
 	//U
 	@Test
+	@Ignore
 	public void update() throws Exception {
 		LOG.debug("======================================");
 		LOG.debug("=01. 기존 데이터 삭제=");
@@ -128,6 +166,7 @@ public class DaoBoardAttrWebTest {
 	
 	//CRD
 	@Test
+	@Ignore
 	public void addAndGet() throws Exception {
 		LOG.debug("======================================");
 		LOG.debug("=01. 기존 데이터 삭제=");
@@ -206,6 +245,7 @@ public class DaoBoardAttrWebTest {
 			
 	
 	@Test
+	@Ignore
 	public void get_retrieve() throws Exception {
 		LOG.debug("======================================");
 		LOG.debug("=01. 기존 데이터 삭제=");

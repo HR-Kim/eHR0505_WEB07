@@ -26,6 +26,35 @@
 			</choose>
 	</sql>
 		
+		
+	<!-- get_boardIdList -->
+	<select id="get_searchTitleList" parameterType="Search" resultType="String">
+		SELECT
+		    <choose>
+				<when test="'10' == searchDiv">
+					TITLE
+				</when>
+				<when test="'30' == searchDiv">
+					REG_ID
+				</when>
+				<otherwise>TITLE</otherwise>							
+			</choose> 
+		FROM
+		    BOARD_ATTR
+		WHERE 1=1
+		<include refid="baseCondition"/>   
+	    <choose>
+			<when test="'10' == searchDiv">
+			ORDER BY TITLE ASC
+			</when>
+			<when test="'30' == searchDiv">
+			ORDER BY REG_ID ASC
+			</when>
+			<otherwise>TITLE</otherwise>							
+		</choose> 
+	</select>
+	
+			
 	<!-- get_boardIdList -->
 	<select id="get_boardIdList" parameterType="Search" resultType="BoardAttr">
 		SELECT

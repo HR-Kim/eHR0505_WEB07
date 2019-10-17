@@ -6,6 +6,11 @@ import kr.co.ehr.cmn.DTO;
 import kr.co.ehr.user.service.Search;
 
 public interface BoardAttrService {
+	/**get_searchTitleList:*/
+	public List<?> get_searchTitleList(DTO dto);
+	
+	/**get_boardIdList:search_like검색*/
+	public List<?> get_boardIdList(DTO dto);
 	
 	/**파일ID Null Update*/
 	public int do_fileIdNullUpdate(DTO dto);
