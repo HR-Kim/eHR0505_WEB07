@@ -121,6 +121,16 @@ public class BoardAttrServiceImpl implements BoardAttrService {
 		return boardAttrDaoImpl.do_fileIdNullUpdate(dto);
 	}
 
+	@Override
+	public List<?> get_boardIdList(DTO dto) {
+		return boardAttrDaoImpl.get_boardIdList(dto);
+	}
+
+	@Override
+	public List<?> get_searchTitleList(DTO dto) {
+		return boardAttrDaoImpl.get_searchTitleList(dto);
+	}
+
   
 
 }

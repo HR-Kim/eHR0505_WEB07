@@ -24,6 +24,7 @@ import kr.co.ehr.board.service.Board;
 import kr.co.ehr.board.service.BoardService;
 import kr.co.ehr.boardAttr.service.BoardAttr;
 import kr.co.ehr.boardAttr.service.BoardAttrService;
+import kr.co.ehr.cmn.DTO;
 import kr.co.ehr.cmn.Message;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.code.service.Code;
@@ -53,6 +54,29 @@ public class BoardAttrController {
 	private final String VIEW_MNG_NM = "board_attr/board_attr_mng";
 	private final String VIEW_MNG_REG_NM = "board_attr/board_attr_reg";
 	
+	@RequestMapping(value="board_attr/keywordSearch.do",method = RequestMethod.GET
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody	
+	public String get_searchTitleList(Search search,HttpServletRequest req) {
+		//param
+		if(search.getPageSize()==0) {
+			search.setPageSize(10);
+		}
+		
+		if(search.getPageNum()==0) {
+			search.setPageNum(1);
+		}		
+		
+		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv()));
+		search.setSearchWord(StringUtil.nvl(search.getSearchWord()));
+		
+		List<String> list = (List<String>) service.get_searchTitleList(search);
+		
+		Gson   gson = new Gson();
+		String json = gson.toJson(list);
+		
+		return json;
+	}
 	//http://localhost:8080/ehr/file/uploadfileview.do
 	@RequestMapping(value="board_attr/board_attr_mng.do")
 	public String boardAttrMngView(HttpServletRequest req) {
@@ -211,7 +235,7 @@ public class BoardAttrController {
 		if( flag ==1) {
 			
 			//FILE_MNG 테이블/물리적 파일 삭제.
-			if(inVO.getFileId().length()==40) {
+			if(inVO.getFileId() != null &&  inVO.getFileId().length()==40) {
 				kr.co.ehr.file.service.File fileVO=new kr.co.ehr.file.service.File();
 				fileVO.setFileId(inVO.getFileId());
 				

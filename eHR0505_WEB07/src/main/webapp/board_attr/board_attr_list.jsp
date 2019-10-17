@@ -125,7 +125,7 @@
 						<!-- 검색구분 --> 
 						<%=StringUtil.makeSelectBox(listBoardSearch, "searchDiv", searchDiv, true) %>
 						<input type="text" class="form-control input-sm" id="searchWord"
-							name="searchWord" placeholder='<spring:message code="message.com.search"/>' />
+							name="searchWord" onKeyUp="keywordSearch()" placeholder='<spring:message code="message.com.search"/>' />	
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<button type="button" class="btn btn-default btn-sm"
 							id="doRetrieve"><spring:message code="message.com.retrieve"/></button>						
@@ -135,7 +135,11 @@
 						<button type="button" class="btn btn-default btn-sm"
                             id="doSave">등록</button>
 					</div>
+						<div id="suggest">
+       		   				<div id="suggestList"></div>
+  			   			</div>
 				</form>
+
 			</div>
 		</div>
 		<!--// 검색영역 -->
@@ -189,6 +193,75 @@
 	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	<script src="${context}/resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+		var loopSearch = true;
+
+		function keywordSearch(){
+			if(loopSearch == false)return;
+			//alert($("#searchDiv").val()+"|"+$("#searchWord").val());
+			
+			if($("#searchDiv").val()=="" || $("#searchDiv").val()=="20")return;
+			if($("#searchWord").val()=="")return;
+	        $.ajax({
+	              type : "GET",
+	              url  : "${context}/board_attr/keywordSearch.do",
+	              dataType : "html",
+	              async : true,
+	              data  : {
+	            	  "searchDiv"  : $("#searchDiv").val(),
+	                  "searchWord" : $("#searchWord").val()
+	              },
+	              success : function(data) {
+	            	  alert(data);
+	                  var jData = JSON.parse(data);
+	                  
+	                  displayResult(jData);
+	              },
+	              complete : function(data) {
+
+	              },
+	              error : function(xhr, status, error) {
+	                  alert("error:" + error);
+	              }
+	          }); 
+			
+		}
+	
+		function displayResult(jsonInfo){
+			var count = jsonInfo.length;
+			if(count > 0) {
+			    var html = '';
+			    for(var i in jsonInfo){
+				   html += "<a href=\"javascript:select('"+jsonInfo[i]+"')\">"+jsonInfo[i]+"</a><br/>";
+			    }
+			    $("#suggestList").empty();
+			    $("#suggestList").append(html);
+			    //show('suggest');
+			}else{
+			    //hide('suggest');
+			} 
+		}
+		
+		function select(selectedKeyword) {
+			 $("#searchWord").val(selectedKeyword);
+			 //document.boardFrm.searchWord.value=selectedKeyword;
+			 loopSearch = false;
+			 hide('suggest');
+		}
+		
+		function show(elementId) {
+			 var element = document.getElementById(elementId);
+			 if(element) {
+			  element.style.display = 'block';
+			 }
+			}
+		
+		function hide(elementId){
+		   var element = document.getElementById(elementId);
+		   if(element){
+			  element.style.display = 'none';
+		   }
+		}
+		
 		//paging
 		function search_page(url, pageNum){
 			var frm = document.boardFrm;

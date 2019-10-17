@@ -144,6 +144,20 @@ public class BoardAttrDaoImpl implements WorkDiv {
 	}
 	
 	
+	/** Test위해 존재: Like (ID추출) */
+	public List<?> get_searchTitleList(DTO dto){
+		String statement = this.NAMESPACE+".get_searchTitleList";
+		Search search = (Search) dto;		
+		LOG.debug("=========================");
+		LOG.debug("1. param:"+search);
+		LOG.debug("2. statement:"+statement);
+		List<String> list =this.sqlSessionTemplate.selectList(statement, search);
+		LOG.debug("3. list:"+list);
+		LOG.debug("=========================");
+		return list;
+	}
+	
+	
 	@Override
 	public List<?> get_retrieve(DTO dto) {
 		String statement = this.NAMESPACE+".get_retrieve";
