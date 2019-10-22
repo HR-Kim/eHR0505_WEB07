@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,6 +55,36 @@ public class UserController {
 	//View
 	private final String VIEW_NM = "user/user_mng";
 	//http://localhost:8080/ehr/user/do_user_view.do
+	
+	@RequestMapping(value="user/logout.do",method = RequestMethod.POST)
+	public String doLogOut(User user,HttpSession session,SessionStatus status,HttpServletRequest req) throws RuntimeException {
+		//----------------------------------------------------------------
+		//ParamSet:선처리
+		//----------------------------------------------------------------
+		LOG.info("=do_logOut=");
+		//----------------------------------------------------------------
+		//Service Call:본처리
+		//----------------------------------------------------------------		
+		HttpSession httpSession = req.getSession();
+		LOG.info("=httpSession="+httpSession);
+        if( null != httpSession) {
+        	
+	        synchronized(httpSession) { 
+	            // invalidating a session destroys it 
+	        	status.setComplete();
+	        	httpSession.removeAttribute("user");
+	        	httpSession.invalidate(); 
+	        }
+        	
+	        LOG.info("=if httpSession="+httpSession);
+        }
+
+        LOG.info("=httpSession="+httpSession);
+		//----------------------------------------------------------------
+		//return:후처리
+		//---------------------------------------------------------------
+		return "main/main";
+	}
 	
 	@RequestMapping(value="/NotLogged.do",method = RequestMethod.GET)
 	public String doLoginView() {

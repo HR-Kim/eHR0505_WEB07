@@ -35,7 +35,7 @@
 		<footer class="container-fluid text-center">
 		  <tiles:insertAttribute name="footer" />
 		</footer>
-
+ 
 	</div>
 </body>
 </html>

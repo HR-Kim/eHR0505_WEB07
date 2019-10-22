@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<form name="topForm" id="topForm" action="logout.do" method="post"  >
+<form name="topForm" id="topForm" action="logout.do" method="post" >
 </form>
 <nav class="navbar navbar-default" >
     <div class="container-fluid"> 
@@ -24,7 +24,7 @@
 </nav>
 <script type="text/javascript">
 function doLogout(){
-    if(false==confirm("Are you sure you want to log out?"))return;
+    if(false==confirm("로그 아웃 하시겠습니까?"))return;
     var frm = document.topForm;
     frm.action="<c:url value='/user/logout.do'/>";
     frm.submit();
