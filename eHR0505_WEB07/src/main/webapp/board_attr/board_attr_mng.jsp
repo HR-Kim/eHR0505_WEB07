@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="delete" value="<spring:message code='message.com.delete'/>"  />
 <c:set var="context" value="${pageContext.request.contextPath }" />
@@ -213,7 +214,7 @@
       }
 	//파일목록 조회
     function getFileList(fileId){
-        //alert("getFileList:"+fileId);
+        alert("getFileList:"+fileId);
         
         $.ajax({
             type:"POST",
@@ -227,20 +228,21 @@
            var parseData = $.parseJSON(data);
            $("#listFileTable tbody tr").remove();
            $.each(parseData, function (index, item) {
+               console.log(item);
                //json=[{"fileId":"201910127f8046b91e6348f2ba77c4d457738f00","orgFileNm":"KakaoTalk_풍경.jpg","saveFileNm":"C:\\HR_FILE\\2019\\10\\KakaoTalk_풍경16.jpg","fSize":55194.0,"ext":"jpg","regDt":"2019/10/12 15:11:46","totalCnt":0,"num":1}]
                $("#listFileTable > tbody:last").append("<tr>"+ 
                        "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.fileId"></c:out> + "</td>" +
                        "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.num"></c:out> + "</td>" +
                        "<td class='text-left org-file-name'>" + <c:out value="item.orgFileNm"></c:out> + "</td>" +
                        "<td class='text-left hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.saveFileNm"></c:out> + "</td>" +
-                       "<td class='text-right'>" + <c:out value="item.fSize"></c:out> + "&nbsp; byte </td>" +
-                       "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.ext"></c:out> + "</td>" +
+                       "<td class='text-left'>" + "<fmt:formatNumber  groupingUsed='true' value='${item.fSize}' />" + "</td>" +   
+                       "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.ext"></c:out> + "</td>" +      
                        "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.regDt"></c:out> + "</td>" +
                        "<td class='text-center'><button type='button'  class='btn btn-default btn-sm btn-danger' >X</button></td>" +
                        "</tr>"); 
            });
            
-         },
+         }, 
          complete:function(data){
           
          },
@@ -329,7 +331,7 @@
 	    
 	    function doUploadFile(){
 
-            var form = $('form')[1];//Form data read
+            var form = $('form')[2];//Form data read
             var formData = new FormData(form);
             $.ajax({
                 type:"POST",

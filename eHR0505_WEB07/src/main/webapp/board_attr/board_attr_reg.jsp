@@ -192,12 +192,12 @@
                            "<td class='text-right hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.num"></c:out> + "</td>" +
                            "<td class='text-left org-file-name'>" + <c:out value="item.orgFileNm"></c:out> + "</td>" +
                            "<td class='text-left hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.saveFileNm"></c:out> + "</td>" +
-                           "<td class='text-right'>" + <c:out value="item.fSize"></c:out> + "&nbsp; byte </td>" +
+                           "<td class='text-right'>" + <c:out value="item.fSize"></c:out> + "</td>" +
                            "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.ext"></c:out> + "</td>" +
                            "<td class='text-center hidden-xs hidden-sm hidden-md hidden-lg'>" + <c:out value="item.regDt"></c:out> + "</td>" +
                            "<td class='text-center'><button type='button'  class='btn btn-default btn-sm btn-danger' >X</button></td>" +
                            "</tr>"); 
-               });
+               });//<fmt:formatNumber  groupingUsed="true" value="${vo.readCnt }"/>
                
              },
              complete:function(data){
@@ -249,7 +249,7 @@
         });
         
         function doUploadFile(){
-            var form = $('form')[1];//Form data read
+            var form = $('form')[2];//Form data read
             var formData = new FormData(form);
             $.ajax({
                 type:"POST",

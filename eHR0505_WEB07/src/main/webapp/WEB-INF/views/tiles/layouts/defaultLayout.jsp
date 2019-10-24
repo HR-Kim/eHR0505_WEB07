@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -20,7 +21,14 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
+	<!--// div container -->
+	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+	<script src="${context}/resources/js/jquery-1.12.4.js"></script>
+	
+	<!-- jQuery validate -->
+	<script src="${context}/resources/js/jquery.validate.js"></script>
+	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+	<script src="${context}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
     <!-- Layout -->

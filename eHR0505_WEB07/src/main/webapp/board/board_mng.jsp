@@ -65,18 +65,19 @@
 		<!-- div title -->
 		<form class="form-horizontal" name="boardEditFrm" id="boardEditFrm"
 			method="post" action="do_update.do">
-			<input type="hidden" class="form-control" name="boardId" id="boardId"
-				value="${vo.boardId }">
-
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">제목</label>
+			<input type="hidden"  name="boardId" id="boardId"
+				value="${vo.boardId }">
+			</div>
+			<div class="form-group">
+				<label for="title" class="col-sm-2 control-label">제목</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" name="title" id="title"
 						placeholder="제목" value="<c:out value='${vo.title }' />">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">조회수</label>
+				<label for="readCnt" class="col-sm-2 control-label">조회수</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" name="readCnt" id="readCnt"
 						placeholder="조회수" value="<c:out value='${vo.readCnt }' />"
@@ -84,7 +85,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">내용</label>
+				<label for="contents" class="col-sm-2 control-label">내용</label>
 				<div class="col-sm-8">
 					<textarea class="form-control" name="contents" id="contents"
 						rows="7" placeholder="내용"><c:out
@@ -92,7 +93,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">등록자
+				<label for="regId" class="col-sm-2 control-label">등록자
 					아이디</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" name="regId" id="regId"
@@ -101,7 +102,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">등록일</label>
+				<label for="regDt" class="col-sm-2 control-label">등록일</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" name="regDt" id="regDt"
 						placeholder="등록일" value="<c:out value='${vo.regDt }' />"

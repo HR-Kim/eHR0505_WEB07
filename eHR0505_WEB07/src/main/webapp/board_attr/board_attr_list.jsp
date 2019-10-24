@@ -165,7 +165,7 @@
 									<td class="text-center" style="display:none;"><c:out value="${vo.boardId }"/></td>
 									<td class="text-center" style="display:none;"><c:out value="${vo.fileId }"/></td>
 									<td class="text-center"><c:out value="${vo.num }"/></td>
-									<td class="text-left"><c:out value="${vo.title }"/>&nbsp;<c:if test="${'0'!= vo.fileId}"><img alt="" src='<c:url value="/resources/images/file/file.gif" />'  ></c:if></td>
+									<td class="text-left"><c:out value="${vo.title }"/>&nbsp;<c:if test="${'0'!= vo.fileId}"><span class="glyphicon glyphicon-floppy-disk"></c:if></td>
 									<td class="text-left"><c:out value="${vo.regId }"/></td>
 									<td class="text-right"><c:out value="${vo.readCnt }"/></td>
 									<td class="text-center"><c:out value="${vo.regDt }"/></td>

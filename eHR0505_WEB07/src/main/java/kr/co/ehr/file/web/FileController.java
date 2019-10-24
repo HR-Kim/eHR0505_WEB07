@@ -147,18 +147,18 @@ public class FileController {
 		//Upload파일 정보: 원본,저장,사이즈,확장자 List
 		List<kr.co.ehr.file.service.File> fileList = new ArrayList<kr.co.ehr.file.service.File>();
 		
-		String workDiv = StringUtil.nvl(mReg.getParameter("work_div"));
+//		String workDiv = StringUtil.nvl(mReg.getParameter("work_div"));
 		String fileId  = StringUtil.nvl(mReg.getParameter("attrFileId"));
 		//--------------------------------------------
 		//-예외처리
 		//--------------------------------------------
-		if(workDiv.equals("")) {
-			throw new ArithmeticException("0으로 나눌수 없습니다.");
-		}
+//		if(workDiv.equals("")) {
+//			throw new ArithmeticException("0으로 나눌수 없습니다.");
+//		}
 		
 
 		
-		LOG.debug("=@Controller workDiv="+workDiv);
+//		LOG.debug("=@Controller workDiv="+workDiv);
 		LOG.debug("=@Controller fileId="+fileId);
 		
 		

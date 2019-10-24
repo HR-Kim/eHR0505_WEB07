@@ -22,6 +22,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -42,6 +43,9 @@ import kr.co.ehr.user.service.UserService;
 public class UserServiceImpl implements UserService {
 	private Logger LOG = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Autowired
 	private ExcelWriter excelWriter;
 	
@@ -246,16 +250,36 @@ public class UserServiceImpl implements UserService {
 		//----------------------------------
 		//2.비번체크
 		//----------------------------------
-		flag = userDao.passwd_check(dto);
-		if(flag<1) {
+		
+		
+		//----------------------------------
+		//3.암호화 비번 체크:passowrd조회
+		//----------------------------------
+		User encodePassword = (User) userDao.get_selectOne(dto);
+		
+
+		User userRawPassword = (User) dto;
+		LOG.debug("===========================================");
+		LOG.debug("=userRawPassword="+userRawPassword.getPasswd());
+		LOG.debug("=encodePassword="+encodePassword.getPasswd());
+		LOG.debug("===========================================");		
+		if(this.bCryptPasswordEncoder.matches(userRawPassword.getPasswd(), encodePassword.getPasswd())) {
+			outMsg.setMsgId("30");
+		}else {
 			outMsg.setMsgId("20");
 			outMsg.setMsgMsg("비번을 확인 하세요.");
-			return outMsg;
-		}		
-		
-		if(flag==1) {
-			outMsg.setMsgId("30");
 		}
+		
+//		flag = userDao.passwd_check(dto);
+//		if(flag<1) {
+//			outMsg.setMsgId("20");
+//			outMsg.setMsgMsg("비번을 확인 하세요.");
+//			return outMsg;
+//		}		
+//		
+//		if(flag==1) {
+//			outMsg.setMsgId("30");
+//		}
 		
 		LOG.debug("===========================================");
 		LOG.debug("=outMsg="+outMsg);

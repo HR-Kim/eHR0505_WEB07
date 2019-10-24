@@ -70,6 +70,7 @@
 	int bottomCount = 10;
 	int currPageNo  = 1;//pageNum
 	int rowPerPage  = 10;//pageSize
+	int pageIndex   = 10;
 	
 	String url      = request.getContextPath()+"/board/get_retrieve.do";
 	String scriptName ="search_page";
@@ -81,7 +82,9 @@
 	maxNum = Integer.valueOf(tmpTotalCnt);
 	currPageNo = Integer.valueOf(pageNum);
 	rowPerPage = Integer.valueOf(pageSize);
+	pageIndex  = rowPerPage;
 	
+	//seq=총글수 - (currPageNo*rowPerPage)+(pageIndex)--
 
 %>
 <html lang="ko">
@@ -155,7 +158,7 @@
 							<c:forEach var="vo" items="${list}">
 								<tr>
 									<td class="text-center" style="display:none;"><c:out value="${vo.boardId }"/></td>
-									<td class="text-center"><c:out value="${vo.num }"/></td>
+									<td class="text-center"><c:out value="<%=maxNum - (rowPerPage * currPageNo)+pageIndex-- %>"/></td>
 									<td class="text-left"><c:out value="${vo.title }"/></td>
 									<td class="text-left"><c:out value="${vo.regId }"/></td>
 									<td class="text-right"><fmt:formatNumber  groupingUsed="true" value="${vo.readCnt }"/></td>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,6 +52,9 @@ public class UserController {
 	@Autowired
 	CodeService codeService;
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	
 	//View
 	private final String VIEW_NM = "user/user_mng";
@@ -86,12 +90,12 @@ public class UserController {
 		return "main/main";
 	}
 	
-	@RequestMapping(value="/NotLogged.do",method = RequestMethod.GET)
+	@RequestMapping(value="login/NotLogged.do",method = RequestMethod.GET)
 	public String doLoginView() {
 		LOG.debug("=========================");
 		LOG.debug("=@Controller=doLoginView==");
 		LOG.debug("=========================");
-		return "user/login";
+		return "login/login";
 	}
 	
 	@RequestMapping(value="login/do_login.do",method=RequestMethod.POST
@@ -240,6 +244,14 @@ public class UserController {
 		LOG.debug("=@Controller=user=="+user);
 		LOG.debug("1=========================");
 		
+		
+//		if(null !=user) {
+//			LOG.debug("=@Controller=getPasswd=="+user.getPasswd());
+//			String encPassword = bCryptPasswordEncoder.encode(user.getPasswd());
+//			LOG.debug("=@Controller=encPassword=="+encPassword);
+//			user.setPasswd(encPassword);
+//		}
+		
 		//validation
 		int flag = userService.do_update(user);
 		Message message=new Message();
@@ -269,6 +281,20 @@ public class UserController {
 		LOG.debug("=@Controller=user=="+user);
 		LOG.debug("=@Controller=gethLevel=="+user.gethLevel());
 		LOG.debug("1=========================");
+		
+		//--------------------------------------------------
+		//비번 암호화
+		//스프링 시큐리티에서 기본적을 사용하는 암호화 방식으로 암호화가 될때마다 새로운 값을 생성한다. 임의적인 값을 추가해서 암호화하지 않아도 된다. (salt 사용하지 않는다.)
+		//--------------------------------------------------
+		
+		
+		if(null !=user) {
+			LOG.debug("=@Controller=getPasswd=="+user.getPasswd());
+			String encPassword = bCryptPasswordEncoder.encode(user.getPasswd());
+			LOG.debug("=@Controller=encPassword=="+encPassword);
+			user.setPasswd(encPassword);
+		}
+		
 		
 		//validation
 		int flag = userService.do_save(user);
