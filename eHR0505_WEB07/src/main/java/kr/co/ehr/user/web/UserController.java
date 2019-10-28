@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +33,7 @@ import kr.co.ehr.cmn.Message;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.code.service.Code;
 import kr.co.ehr.code.service.CodeService;
+import kr.co.ehr.user.service.Login;
 import kr.co.ehr.user.service.Search;
 import kr.co.ehr.user.service.User;
 import kr.co.ehr.user.service.UserService;
@@ -101,15 +104,36 @@ public class UserController {
 	@RequestMapping(value="login/do_login.do",method=RequestMethod.POST
 			,produces = "application/json; charset=UTF-8")
 	@ResponseBody		
-	public String do_login(User user,HttpSession session,HttpServletRequest request, HttpServletResponse response) {
+	public String do_login(User user,BindingResult result,HttpSession session,HttpServletRequest request, HttpServletResponse response) {
 		LOG.debug("1=========================");
-		LOG.debug("1=user="+user);
+		LOG.debug("1=login="+user);
 		LOG.debug("1=========================");
 		
 		//String language = StringUtil.nvl(request.getParameter("lang"),"ko");
 		//LOG.debug("=language="+language);
+		Message msg =new Message();
+		Gson gson=new Gson();
+		// 에러가 있는지 검사
+//		 if( result.hasErrors() ) {
+//
+//			 // 에러를 List로 저장
+//			 List<ObjectError> list = result.getAllErrors();
+//			 for( ObjectError error : list ) {
+//				 LOG.debug("1=error="+error);
+//			 }
+//			 msg.setMsgId("00");
+//			 msg.setMsgMsg(list.toString());
+//			 String json = gson.toJson(msg);
+//			 
+//			 return json;
+//		 }
+		 
 		
-		Message msg = (Message) userService.idPassCheck(user);
+		LOG.debug("2=========================");
+		LOG.debug("2=user="+user);
+		LOG.debug("2=========================");		
+		
+		msg = (Message) userService.idPassCheck(user);
 		LOG.debug("2=========================");
 		LOG.debug("2=msg="+msg);
 		LOG.debug("2=========================");
@@ -130,7 +154,7 @@ public class UserController {
 		}
 		
 		//JSON
-		Gson gson=new Gson();
+		
 		String json = gson.toJson(msg);
 		LOG.debug("2=========================");
 		LOG.debug("=@Controller=json=="+json);

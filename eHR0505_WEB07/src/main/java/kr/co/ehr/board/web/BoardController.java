@@ -192,7 +192,8 @@ public class BoardController {
 		LOG.debug("============================");
 		
 		if(null == board.getBoardId() || "".equals(board.getBoardId())) {
-			throw new IllegalArgumentException("ID를 입력 하세요.");
+			//throw new IllegalArgumentException("ID를 입력 하세요.");
+			return VIEW_MNG_NM;
 		}
 		
 		Board outVO= (Board) this.boardService.get_selectOne(board);

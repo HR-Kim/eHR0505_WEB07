@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +41,10 @@ public class FileController {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
+	@Qualifier("myProperties")
+	private Properties myProperties;	
+	
+	@Autowired
 	private FileService fileService;
 	
 	private final String VIEW_LIST_NM = "file/file_popup";
@@ -46,6 +52,12 @@ public class FileController {
 	@Resource(name="downloadView")
 	private View download;
 	
+	
+	public FileController() {
+		LOG.debug("==================================");
+		LOG.debug("=myProperties="+myProperties);
+		LOG.debug("==================================");
+	}
 	@RequestMapping(value="file/download.do",method = RequestMethod.POST)
 	public ModelAndView download(HttpServletRequest req, ModelAndView mView) {
 		//----------------------------------------------------
@@ -84,6 +96,11 @@ public class FileController {
 		LOG.debug("============================");
 		LOG.debug("=inVO="+inVO);
 		LOG.debug("============================");
+		
+		LOG.debug("==================================");
+		LOG.debug("=myProperties="+myProperties);
+		LOG.debug("=file.config.upload_root="+myProperties.getProperty("file.config.upload_root"));
+		LOG.debug("==================================");
 		
 		List<kr.co.ehr.file.service.File> fileList = (List<kr.co.ehr.file.service.File>) this.fileService.get_retrieve(inVO);
 		LOG.debug("============================");

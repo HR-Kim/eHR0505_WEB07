@@ -72,6 +72,8 @@
 	int rowPerPage  = 10;//pageSize
 	int pageIndex   = 10;
 	
+	int hrNum       = 10;
+	
 	String url      = request.getContextPath()+"/board/get_retrieve.do";
 	String scriptName ="search_page";
 	
@@ -84,8 +86,14 @@
 	rowPerPage = Integer.valueOf(pageSize);
 	pageIndex  = rowPerPage;
 	
-	//seq=총글수 - (currPageNo*rowPerPage)+(pageIndex)--
+	hrNum = (maxNum - (currPageNo*rowPerPage) ) <=0 ? 0:(currPageNo*rowPerPage);
+	out.print("maxNum="+  maxNum);
+	
+	out.print("rowPerPage * currPageNo="+  (rowPerPage * currPageNo));
+	out.print("pageIndex="+  pageIndex);
 
+	//seq=총글수 - (currPageNo*rowPerPage)+(pageIndex)--
+	//총글수가 10보다 작은 경우 
 %>
 <html lang="ko">
 <head>
@@ -127,14 +135,17 @@
 						<%=StringUtil.makeSelectBox(listPageSize, "pageSize", pageSize, false) %>
 						<!-- 검색구분 --> 
 						<%=StringUtil.makeSelectBox(listBoardSearch, "searchDiv", searchDiv, true) %>
-						<input type="text" class="form-control input-sm" id="searchWord"
+						<input type="text" class="form-control input-sm" id="searchWord" value="${vo.searchWord }"
 							name="searchWord" placeholder='<spring:message code="message.com.search"/>' />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="button" class="btn btn-default btn-sm"
+                            id="doSave">등록</button>
 						<button type="button" class="btn btn-default btn-sm"
 							id="doRetrieve"><spring:message code="message.com.retrieve"/></button>						
 						<!-- 엑셀구분 --> 
 						<%=StringUtil.makeSelectBox(listExcelType, "ext", ext, false) %>	
 						<input type="button" class="btn btn-default btn-sm" id="doExcel" value='<spring:message code="message.com.exceldown"/>' />
+
 					</div>
 				</form>
 			</div>
@@ -189,6 +200,13 @@
 	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	<script src="${context}/resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+    //등록으로 이동
+	    $("#doSave").on("click",function(){
+	        var frm = document.boardFrm;
+	        frm.action = "${context}/board/do_selectOne.do";
+	        frm.submit();
+	    });
+    	
 		//paging
 		function search_page(url, pageNum){
 			var frm = document.boardFrm;

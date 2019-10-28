@@ -130,8 +130,7 @@
 			location.href = "${context}/board/get_retrieve.do";
 		});
 
-		//초기환
-		$("#doInit").on("click", function() {
+		function init(){
 			//alert("doInit");
 			//input data clear
 			$("#boardId").val("")
@@ -147,6 +146,12 @@
 			$("#doSave").prop("disabled", false);
 
 			$("#regId").prop("disabled", false);
+		}
+		//초기환
+		$("#doInit").on("click", function() {
+			//alert("doInit");
+			//input data clear
+			init();
 
 		});
 
@@ -266,6 +271,11 @@
 		});
 
 		$(document).ready(function() {
+
+			if($("#boardId").val()==""){
+				init();
+			}
+			
 			//form validate
 			$("#boardEditFrm").validate({
 				rules: {					

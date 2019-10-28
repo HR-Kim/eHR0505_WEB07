@@ -8,6 +8,8 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
+	    <hibernate-validator-version>4.3.2.Final</hibernate-validator-version>
+		<jaxb-api-version>2.3.0</jaxb-api-version>
 	    <spring-security-version>4.2.4.RELEASE</spring-security-version>
 		<jackson-version>2.9.9</jackson-version>
 	    <org.apache.tiles.version>3.0.8</org.apache.tiles.version>
@@ -49,6 +51,22 @@
 	</repositories>
 
 	<dependencies>
+	
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>${hibernate-validator-version}</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    <version>${jaxb-api-version}</version>
+		</dependency>
+
+	
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>

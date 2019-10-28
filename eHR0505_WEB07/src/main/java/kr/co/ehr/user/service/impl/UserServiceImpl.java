@@ -263,23 +263,23 @@ public class UserServiceImpl implements UserService {
 		LOG.debug("=userRawPassword="+userRawPassword.getPasswd());
 		LOG.debug("=encodePassword="+encodePassword.getPasswd());
 		LOG.debug("===========================================");		
-		if(this.bCryptPasswordEncoder.matches(userRawPassword.getPasswd(), encodePassword.getPasswd())) {
-			outMsg.setMsgId("30");
-		}else {
-			outMsg.setMsgId("20");
-			outMsg.setMsgMsg("비번을 확인 하세요.");
-		}
-		
-//		flag = userDao.passwd_check(dto);
-//		if(flag<1) {
+//		if(this.bCryptPasswordEncoder.matches(userRawPassword.getPasswd(), encodePassword.getPasswd())) {
+//			outMsg.setMsgId("30");
+//		}else {
 //			outMsg.setMsgId("20");
 //			outMsg.setMsgMsg("비번을 확인 하세요.");
-//			return outMsg;
-//		}		
-//		
-//		if(flag==1) {
-//			outMsg.setMsgId("30");
 //		}
+		
+		flag = userDao.passwd_check(dto);
+		if(flag<1) {
+			outMsg.setMsgId("20");
+			outMsg.setMsgMsg("비번을 확인 하세요.");
+			return outMsg;
+		}		
+		
+		if(flag==1) {
+			outMsg.setMsgId("30");
+		}
 		
 		LOG.debug("===========================================");
 		LOG.debug("=outMsg="+outMsg);
